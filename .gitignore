@@ -1,0 +1,138 @@
+#######################################
+# Python
+#######################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.log
+
+#######################################
+# Virtual Environments
+#######################################
+.venv/
+venv/
+env/
+ENV/
+
+#######################################
+# Jupyter Notebooks
+#######################################
+.ipynb_checkpoints
+
+#######################################
+# OS / Editor Files
+#######################################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+#######################################
+# Logs & Debug
+#######################################
+logs/
+*.log
+tea_debug.log
+
+#######################################
+# Data (HEAVY FILES)
+#######################################
+data/raw/
+data/processed/
+data/tokenized/
+data/ground_truth/
+data/rag_corpus/
+data/rag_index/
+data/roleplay_benchmark/
+
+# Allow configs/metadata if needed
+!data/**/metadata/
+!data/**/metadata/*.json
+
+#######################################
+# Backup repo (DO NOT PUSH)
+#######################################
+backup_repo/
+
+#######################################
+# Models (VERY HEAVY)
+#######################################
+models/
+**/checkpoints/
+**/*.safetensors
+**/*.bin
+**/*.pt
+**/*.pth
+**/optimizer.pt
+**/scheduler.pt
+**/trainer_state.json
+
+#######################################
+# HuggingFace / Dataset cache
+#######################################
+**/*.arrow
+**/dataset_info.json
+**/state.json
+.cache/
+hf_dataset_index.faiss
+
+#######################################
+# FAISS / Vector DB
+#######################################
+*.faiss
+
+#######################################
+# Outputs / Results
+#######################################
+outputs/
+results/
+experiments/logs/
+experiments/results/
+
+#######################################
+# Plots / Generated Images (optional)
+#######################################
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# If you want to KEEP plots, comment the above and use:
+#!experiments/results/plots/
+
+#######################################
+# Temporary / Runtime
+#######################################
+tmp/
+temp/
+*.tmp
+
+#######################################
+# Shell / Execution Artifacts
+#######################################
+*.out
+*.err
+
+#######################################
+# Allow Important Files
+#######################################
+!requirements.txt
+!README.md
+!configs/
+!scripts/
+!src/
+!utils/
+
+#######################################
+# Optional: Keep small example data
+#######################################
+!data/sample/
