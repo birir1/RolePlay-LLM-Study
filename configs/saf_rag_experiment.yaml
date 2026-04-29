@@ -1,0 +1,98 @@
+# SAF-RAG Experiment Configuration
+# Full benchmark comparing SAF-RAG vs baselines with ablations
+
+experiment:
+  name: "saf-rag-full-benchmark"
+  description: "Full SAF-RAG vs Vanilla RAG vs Baseline LLM with ablation studies"
+  seed: 42
+
+# Datasets to evaluate on
+datasets:
+  - name: "hotpotqa"
+    split: "test"
+    sample_size: 100
+    description: "HotpotQA: Multi-hop reasoning questions"
+  
+  - name: "natural-questions"
+    split: "test"
+    sample_size: 100
+    description: "Natural Questions from Google"
+  
+  - name: "custom-roleplay"
+    path: "data/processed/roleplay_test.csv"
+    sample_size: 50
+    description: "Custom roleplay task dataset"
+
+# Evaluation metrics to compute
+evaluation:
+  metrics:
+    - sycophancy      # Phase 1: Sycophancy Rate
+    - hallucinations  # Phase 3: Hallucination Rate
+    - persona_drift   # Phase 3: Role Drift Index
+    - faithfulness    # Phase 3: Faithfulness Score
+  
+  # Optional: role-specific metrics for roleplay tasks
+  include_role_metrics: true
+  
+  batch_size: 32
+  device: "cuda"  # or "cpu"
+  verbose: false
+
+# Model evaluation
+models:
+  # Core experiments (basic comparison)
+  core:
+    - baseline-llm     # Vanilla LLM (no retrieval)
+    - vanilla-rag      # Standard RAG (retrieve + generate)
+    - saf-rag          # Full SAF-RAG (all phases)
+  
+  # Ablations (measure contribution of each phase)
+  ablations:
+    - ablation-no-phase1        # Remove Phase 1 (sycophancy detection)
+    - ablation-bm25-only        # Remove Phase 2 dense retrieval
+    - ablation-no-reranker      # Remove Phase 2 reranking
+    - ablation-no-phase3        # Remove Phase 3 evaluation (speed benchmark)
+    - ablation-fixed-gate       # Fixed fusion gate vs learnable
+
+# Output configuration
+output:
+  # Directory to save all results
+  results_dir: "experiments/results"
+  
+  # What to generate
+  save_report: true
+  save_plots: true
+  save_tables: true
+  
+  # Report format
+  report_format: "json"           # json, yaml
+  table_format: "markdown"        # markdown, latex, html
+  
+  # Plots to generate
+  plots:
+    - "metric_comparison"         # Bar chart per metric
+    - "metric_heatmap"           # Heatmap of all metrics
+    - "ablation_analysis"        # Ablation contribution plot
+    - "metric_distributions"     # Distribution plots
+
+# Advanced settings
+advanced:
+  # Randomness
+  seed: 42
+  
+  # Parallelization
+  num_workers: 4
+  model_parallel: false           # Use model parallelism if available
+  
+  # Caching
+  cache_embeddings: true
+  cache_dir: "experiments/.cache"
+  
+  # Early stopping (for quick runs)
+  max_samples_per_dataset: null   # null = use all samples
+  
+  # Precision
+  mixed_precision: true           # Use float16 for speed
+  
+  # Checkpoint interval (save progress during long runs)
+  checkpoint_interval: 100
